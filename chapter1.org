@@ -42,3 +42,73 @@ Define a procedure that takes three numbers as arguments and returns the sum of 
 
 #+RESULTS:
 : 13
+
+** Exercise 1.7
+The good-enough? test used in computing square roots will not be very effective for finding the square roots of very small numbers. Also, in real computers, arithmetic operations are almost always performed with limited precision. This makes our test inadequate for very large numbers.
+
+*** The problem with the original approach
+
+The original =good-enough?= checks if =|guess² - x| < 0.001=. This fixed tolerance fails in two ways:
+
+*For small numbers:* If x = 0.0001, the actual square root is 0.01. But our tolerance of 0.001 is 10% of the answer! We might accept 0.03 as "good enough" when it's wildly wrong.
+
+*For large numbers:* If x = 10000000000000 (10^13), floating point precision means we can't represent differences smaller than ~1. The algorithm might never terminate because we can't get within 0.001 of the answer, or it oscillates forever.
+
+#+BEGIN_SRC emacs-lisp
+;; Original (broken) implementation
+(defun square (x) (* x x))
+
+(defun average (a b) (/ (+ a b) 2.0))
+
+(defun improve (guess x)
+  (average guess (/ x guess)))
+
+(defun good-enough? (guess x)
+  (< (abs (- (square guess) x)) 0.001))
+
+(defun sqrt-iter (guess x)
+  (if (good-enough? guess x)
+      guess
+    (sqrt-iter (improve guess x) x)))
+
+(defun bad-sqrt (x)
+  (sqrt-iter 1.0 x))
+
+;; Test with small number - inaccurate result
+(bad-sqrt 0.0001)  ; gives ~0.03, should be 0.01
+#+END_SRC
+
+#+RESULTS:
+: 0.03230844833048122
+
+*** Improved implementation
+
+#+BEGIN_SRC emacs-lisp
+(defun square (x) (* x x))
+
+(defun average (a b) (/ (+ a b) 2.0))
+
+(defun improve (guess x)
+  (average guess (/ x guess)))
+
+(defun good-enough? (guess previous-guess)
+  (< (abs (- guess previous-guess))
+     (* guess 0.00001)))
+
+(defun sqrt-iter (guess previous-guess x)
+  (if (good-enough? guess previous-guess)
+      guess
+    (sqrt-iter (improve guess x) guess x)))
+
+(defun better-sqrt (x)
+  (sqrt-iter 1.0 0.0 x))
+
+;; Test both implementations
+(list
+ (cons "small (0.0001):" (better-sqrt 0.0001))
+ (cons "normal (2):" (better-sqrt 2))
+ (cons "large (1e13):" (better-sqrt 1e13)))
+#+END_SRC
+
+#+RESULTS:
+: ((small (0.0001): . 0.01) (normal (2): . 1.4142135623746899) (large (1e13): . 3162277.6601683795))
