@@ -5,8 +5,8 @@
 #                                                   +:+ +:+           +:+      #
 #    By: yiyuli <yy@eyuan.me>                     +#+  +:+         +#+         #
 #                                               +#+#+#+#+#+      +#+           #
-#    Created: 2026/02/06 16:11:07 by yiyuli           #+#      #+#             #
-#    Updated: 2026/02/06 16:11:50 by yiyuli         ###      ########.fr       #
+#    Created: 2026/02/19 14:16:08 by yiyuli           #+#      #+#             #
+#    Updated: 2026/02/19 14:18:05 by yiyuli         ###      ########.fr       #
 #                                                                              #
 # **************************************************************************** #
 
@@ -164,3 +164,32 @@ Use this formula to implement a cube-root procedure analogous to the square-root
 
 #+RESULTS:
 : ((cbrt(8): . 2.000000000012062) (cbrt(27): . 3.0000000000000977) (cbrt(1000): . 10.000000000000002) (cbrt(0.001): . 0.10000000000000005) (cbrt(-8): . -2.0))
+
+** Exercise 1.11
+A function $f$ is defined by the rule that $f(n) = n$ if $n < 3$ and $f(n) = f(n-1) + 2f(n-2) + 3f(n-3)$ if $n \geq 3$.
+
+*** Recursive Process
+#+BEGIN_SRC scheme
+(define (f n)
+  (if (< n 3)
+      n
+      (+ (f (- n 1))
+         (* 2 (f (- n 2)))
+         (* 3 (f (- n 3))))))
+#+END_SRC
+
+*** Iterative Process
+#+BEGIN_SRC scheme
+(define (f n)
+  (define (f-iter a b c count)
+    (if (< count 3)
+        a
+        (f-iter (+ a (* 2 b) (* 3 c))
+                a
+                b
+                (- count 1))))
+  (if (< n 3)
+      n
+      (f-iter 2 1 0 n)))
+
+#+END_SRC
