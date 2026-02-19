@@ -1,10 +1,10 @@
-# SCIP Exercises in Elisp
+# SCIP Exercises in Racket
 
-Working through Structure and Interpretation of Computer Programs, writing all solutions in Emacs Lisp.
+Working through Structure and Interpretation of Computer Programs, writing all solutions in Racket (a Scheme dialect).
 
-## Why Elisp?
+## Why Racket?
 
-SICP uses Scheme, but Elisp is close enough and I use Emacs daily. Might as well practice in a language I actually use.
+SICP uses Scheme, and Racket is a modern, batteries-included Scheme implementation with excellent tooling and documentation.
 
 ## Structure
 
@@ -18,9 +18,10 @@ Each chapter gets its own `.org` file:
 
 ## Running the code
 
-Evaluate code blocks directly in Emacs with `C-c C-c` inside org-mode, or use `M-x ielm` for an interactive Elisp REPL.
+Use `racket` to run Scheme files, or `drracket` for an interactive IDE. In org-mode, evaluate code blocks with `C-c C-c`.
 
 ## Resources
 
 - [SICP full text](https://mitp-content-server.mit.edu/books/content/sectbyfn/books_pres_0/6515/sicp.zip/index.html)
 - [MIT 6.001 lectures](https://ocw.mit.edu/courses/6-001-structure-and-interpretation-of-computer-programs-spring-2005/video_galleries/video-lectures/)
+- [Racket documentation](https://docs.racket-lang.org/)
