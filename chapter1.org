@@ -496,3 +496,27 @@ where =h = (b - a) / n=, for some even integer =n=, and =y_k = f(a + kh)=. (Incr
 #+RESULTS:
 : 1/4
 
+
+** Exercise 1.30.
+The =sum= procedure above generates a linear recursion. The procedure can be rewritten so that the sum is performed iteratively. Show how to do this by filling in the missing expressions in the following definition:
+
+#+BEGIN_SRC racket :lang sicp :results output
+(define (sum term a next b)
+  (define (iter current result)
+    (if (> current b)
+        result
+        (iter (next current)
+              (+ result (term current)))))
+  (iter a 0))
+
+(define (inc n) (+ n 1))
+(define (identity x) x)
+(define (cube x) (* x x x))
+
+(display (sum identity 1 inc 4)) (newline)
+(display (sum cube 1 inc 3)) (newline)
+#+END_SRC
+
+#+RESULTS:
+: 10
+: 36
